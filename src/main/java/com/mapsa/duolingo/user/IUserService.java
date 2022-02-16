@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface IUserService {
 
-    User save(User user);
+    User CreateNewUser(User user);
 
     User getById(Long userId);
 
@@ -13,4 +13,6 @@ public interface IUserService {
     void deleteById(Long userId);
 
     void changeLevel(Long userId);
+
+    User login(String username, String password);
 }
