@@ -1,10 +1,12 @@
 package com.mapsa.duolingo.user;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import com.mapsa.duolingo.common.GenericRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+@Repository
+public interface UserRepository extends GenericRepository<User,Long> {
     boolean existsUserByEmailAddressOrUserName(String emailAddress,String username);
     Optional<User> findUserByUserNameAndPassword(String username, String password);
 }

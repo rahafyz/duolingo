@@ -1,18 +1,10 @@
 package com.mapsa.duolingo.user;
 
-import java.util.List;
 
-public interface IUserService {
+import com.mapsa.duolingo.common.IGenericService;
 
-    User CreateNewUser(User user);
 
-    User getById(Long userId);
-
-    List<User> getAll();
-
-    void deleteById(Long userId);
-
-    void changeLevel(Long userId);
+public interface IUserService extends IGenericService<User, Long> {
 
     User login(String username, String password);
 }

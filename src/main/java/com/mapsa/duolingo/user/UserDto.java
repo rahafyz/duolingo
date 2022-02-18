@@ -1,20 +1,27 @@
 package com.mapsa.duolingo.user;
 
 import com.mapsa.duolingo.level.Level;
-import com.sun.istack.NotNull;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
 public class UserDto implements Serializable {
+    @ApiModelProperty(required = false, hidden = true)
     private final Long id;
+
+    @ApiModelProperty(required = false, hidden = false)
     private final String firstName;
-    @NotNull
+
+    @ApiModelProperty(required = true, hidden = true)
     private final String lastName;
-    @NotNull
+
+    @ApiModelProperty(required = true)
     private final String userName;
-    @NotNull
+
+    @ApiModelProperty(required = true)
     private final String emailAddress;
+
     private final Level level;
 }

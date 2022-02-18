@@ -1,7 +1,9 @@
 package com.mapsa.duolingo.course;
 
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import com.mapsa.duolingo.common.GenericRepository;
+import org.springframework.stereotype.Repository;
 
-public interface CourseRepository extends PagingAndSortingRepository<Course, Long> {
+@Repository
+public interface CourseRepository extends GenericRepository<Course,Long> {
 }

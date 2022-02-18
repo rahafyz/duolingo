@@ -14,8 +14,7 @@ public class Level {
     @Column(name = "level_id")
     private Long id;
 
-    @Enumerated(EnumType.ORDINAL)
     @Column(name = "level")
-    private ELevel level;
+    private String level;
 
 }

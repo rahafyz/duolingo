@@ -14,8 +14,7 @@ public class Language {
     @Column(name = "language_id")
     private Long id;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "name")
-    private ELanguage language;
+    private String language;
 
 }
