@@ -20,8 +20,8 @@ public class GenericService<T extends BaseEntity, U> implements IGenericService<
     }
 
     @Override
-    public void save(T entity) {
-        repository.save(entity);
+    public T save(T entity) {
+        return repository.save(entity);
     }
 
     //add exceptions and get subclass

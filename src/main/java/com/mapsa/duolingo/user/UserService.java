@@ -17,11 +17,11 @@ public class UserService extends GenericService<User, Long> implements IUserServ
 
 
     @Override
-    public void save(User user) {
+    public User save(User user) {
 
         if (userRepository.existsUserByEmailAddressOrUserName(user.getEmailAddress(), user.getPassword()))
             throw new ConflictException("this user is already exist");
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
 //jwt

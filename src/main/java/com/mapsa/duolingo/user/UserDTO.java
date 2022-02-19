@@ -4,24 +4,25 @@ import com.mapsa.duolingo.level.Level;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
-public class UserDto implements Serializable {
+public class UserDTO {
+
     @ApiModelProperty(required = false, hidden = true)
-    private final Long id;
+    private Long id;
 
     @ApiModelProperty(required = false, hidden = false)
-    private final String firstName;
+    private String firstName;
 
     @ApiModelProperty(required = true, hidden = true)
-    private final String lastName;
+    private String lastName;
 
     @ApiModelProperty(required = true)
-    private final String userName;
+    private String userName;
 
     @ApiModelProperty(required = true)
-    private final String emailAddress;
+    private String emailAddress;
 
-    private final Level level;
+    private Level level;
+
+
 }

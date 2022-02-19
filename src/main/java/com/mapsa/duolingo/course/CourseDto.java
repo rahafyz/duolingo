@@ -11,14 +11,14 @@ import java.io.Serializable;
 public class CourseDto implements Serializable {
 
     @ApiModelProperty(required = false, hidden = true)
-    private final Long id;
+    private Long id;
 
     @ApiModelProperty(required = true)
-    private final String name;
+    private String name;
 
     @ApiModelProperty(required = true)
-    private final Language language;
+    private Language language;
 
     @ApiModelProperty(required = true)
-    private final Level level;
+    private Level level;
 }

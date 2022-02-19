@@ -10,11 +10,11 @@ import java.io.Serializable;
 @Data
 public class ExamDto implements Serializable {
     @ApiModelProperty(hidden = true)
-    private final Long id;
+    private Long id;
     @ApiModelProperty(required = true, hidden = true)
-    private final String location;
+    private String location;
     @ApiModelProperty(required = true)
-    private final Language language;
+    private Language language;
     @ApiModelProperty(required = true)
-    private final Language level;
+    private Language level;
 }
