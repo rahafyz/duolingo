@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-public class UserDTO {
+public class UserDto {
 
     @ApiModelProperty(required = false, hidden = true)
     private Long id;
@@ -19,10 +19,13 @@ public class UserDTO {
     @ApiModelProperty(required = true)
     private String userName;
 
+    @ApiModelProperty(required = true,hidden = true)
+    private String password;
+
     @ApiModelProperty(required = true)
     private String emailAddress;
 
+    @ApiModelProperty(required = false)
     private Level level;
-
 
 }

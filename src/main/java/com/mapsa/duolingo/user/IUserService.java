@@ -6,5 +6,6 @@ import com.mapsa.duolingo.common.IGenericService;
 
 public interface IUserService extends IGenericService<User, Long> {
 
-    User login(String username, String password);
+    User save(User user);
+    User login(User user);
 }

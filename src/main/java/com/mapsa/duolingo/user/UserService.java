@@ -6,15 +6,14 @@ import com.mapsa.duolingo.exception.ConflictException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService extends GenericService<User, Long> implements IUserService {
+public class UserService extends GenericService<User,Long> implements IUserService {
 
     private UserRepository userRepository;
 
-    public UserService(GenericRepository<User, Long> repository) {
+    public UserService(GenericRepository<User, Long> repository, UserRepository userRepository) {
         super(repository);
-        this.userRepository = (UserRepository) repository;
+        this.userRepository = userRepository;
     }
-
 
     @Override
     public User save(User user) {
@@ -25,11 +24,10 @@ public class UserService extends GenericService<User, Long> implements IUserServ
     }
 
 //jwt
-
     @Override
-    public User login(String username, String password) {
-        if (userRepository.findUserByUserNameAndPassword(username, password).isEmpty())
+    public User login(User user) {
+        if (userRepository.findUserByUserNameAndPassword(user.getUserName(), user.getPassword()).isEmpty())
             throw new RuntimeException();
-        return userRepository.findUserByUserNameAndPassword(username, password).get();
+        return userRepository.findUserByUserNameAndPassword(user.getUserName(), user.getPassword()).get();
     }
 }
