@@ -1,5 +1,6 @@
 package com.mapsa.duolingo.language;
 
+import com.mapsa.duolingo.common.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @Table(name = "language")
-public class Language {
+public class Language{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

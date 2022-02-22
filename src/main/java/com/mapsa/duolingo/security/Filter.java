@@ -1,3 +1,4 @@
+/*
 package com.mapsa.duolingo.security;
 
 import com.mapsa.duolingo.exception.CustomException;
@@ -39,3 +40,4 @@ public class Filter extends OncePerRequestFilter {
     }
 }
 
+*/

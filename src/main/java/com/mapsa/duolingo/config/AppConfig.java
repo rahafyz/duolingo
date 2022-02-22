@@ -1,3 +1,4 @@
+/*
 package com.mapsa.duolingo.config;
 
 import com.mapsa.duolingo.security.Filter;
@@ -18,3 +19,4 @@ public class AppConfig {
         return registrationBean;
     }
 }
+*/

@@ -3,7 +3,7 @@ package com.mapsa.duolingo.common;
 
 import java.util.List;
 
-public interface GenericModelMapper<T extends BaseEntity,D> {
+public interface GenericModelMapper<T,D> {
     public T toEntity(D dto);
     public D toDto(T entity);
 

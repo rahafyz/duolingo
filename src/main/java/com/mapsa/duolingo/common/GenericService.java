@@ -7,7 +7,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 
-public class GenericService<T extends BaseEntity, U> implements IGenericService<T, U> {
+public class GenericService<T, U> implements IGenericService<T, U> {
     private GenericRepository<T, U> repository;
 
     public GenericService(GenericRepository<T, U> repository) {

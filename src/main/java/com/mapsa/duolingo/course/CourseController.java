@@ -1,37 +1,28 @@
 package com.mapsa.duolingo.course;
 
+import com.mapsa.duolingo.courseUser.ICourseUserService;
 import com.mapsa.duolingo.user.User;
 import com.mapsa.duolingo.user.UserMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(value = "/course")
+@AllArgsConstructor
 public class CourseController {
 
-    private CourseService courseService;
-    private CourseUserService courseUserService;
+    private ICourseService courseService;
+    private ICourseUserService courseUserService;
     private CourseMapper mapper;
     private UserMapper userMapper;
 
-    public CourseController(CourseService courseService, CourseUserService courseUserService, CourseMapper mapper, UserMapper userMapper) {
-        this.courseService = courseService;
-        this.courseUserService = courseUserService;
-        this.mapper = mapper;
-        this.userMapper = userMapper;
-    }
 
-    @GetMapping(value = "/all-courses")
-    public ResponseEntity<CourseDto> getAll(){
-        List<Course> courses = courseService.getAll();
-        return new ResponseEntity(mapper.toListDto(courses), HttpStatus.OK);
-    }
+
+
 
 
     //ResponseEntity<--->
@@ -42,7 +33,7 @@ public class CourseController {
     }
 
     @GetMapping(value = "/users")
-    public ResponseEntity<User> getUsersCourse(@RequestParam Long courseId){
+    public ResponseEntity<User> getUsersByCourse(@RequestParam Long courseId){
         List<User> users = courseUserService.getUsersByCourse(courseId);
         return new ResponseEntity(userMapper.toListDto(users),HttpStatus.OK);
     }
