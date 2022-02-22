@@ -17,6 +17,9 @@ public class Filter extends OncePerRequestFilter {
         this.jwtBuilder = jwtBuilder;
     }
 
+    public Filter() {
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = jwtBuilder.resolveToken(request);
@@ -28,4 +31,11 @@ public class Filter extends OncePerRequestFilter {
             throw new CustomException(ex.getMessage(),ex.getHttpStatus());
         }
     }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return "/user/login".equals(path);
+    }
 }
+

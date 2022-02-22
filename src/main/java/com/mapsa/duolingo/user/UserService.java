@@ -9,7 +9,6 @@ import com.mapsa.duolingo.security.JwtBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.naming.AuthenticationException;
 
 @Service
 public class UserService extends GenericService<User, Long> implements IUserService {
