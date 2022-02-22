@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface UserRepository extends GenericRepository<User,Long> {
     boolean existsUserByEmailAddressOrUserName(String emailAddress,String username);
     Optional<User> findUserByUserNameAndPassword(String username, String password);
+    Optional<User> findUserByUserName(String username);
 }

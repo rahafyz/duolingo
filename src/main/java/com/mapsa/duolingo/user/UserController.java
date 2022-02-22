@@ -1,6 +1,10 @@
 package com.mapsa.duolingo.user;
 
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +25,9 @@ public class UserController {
         return ResponseEntity.ok(newUser);
     }
 
-    @PutMapping(value = "/login")
-    public ResponseEntity<UserDto> login(@RequestBody UserDto userDTO){
-        UserDto currentUser = loginMapper.toDto(userService.login(loginMapper.toEntity(userDTO)));
-        return ResponseEntity.ok(currentUser);
+    @PostMapping("/signin")
+    public String login(@RequestParam String username,@RequestParam String password) {
+        return userService.login(username, password);
     }
 
     @PostMapping(value = "/delete account")

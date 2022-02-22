@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +30,11 @@ public class GlobalExceptionHandling {
         res.put("message", exception.getMessage());
 
         return new ResponseEntity<>(res, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public void handleCustomException(HttpServletResponse res, CustomException ex) throws IOException {
+        res.sendError(ex.getHttpStatus().value(), ex.getMessage());
     }
 
 }
