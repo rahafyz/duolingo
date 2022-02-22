@@ -1,16 +1,11 @@
 package com.mapsa.duolingo.course;
 
 
+import com.mapsa.duolingo.common.IGenericService;
+
 import java.util.List;
 
-public interface ICourseService {
+public interface ICourseService extends IGenericService<Course,Long> {
 
-    Course save(Course course);
-
-    Course getById(Long courseId);
-
-    List<Course> getAll();
-
-    void delete(Long courseId);
 
 }

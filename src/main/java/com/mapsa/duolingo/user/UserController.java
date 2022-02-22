@@ -18,7 +18,7 @@ public class UserController {
     @PostMapping(value = "/register")
     public ResponseEntity<UserDto> register(@RequestBody UserDto userDto){
         UserDto newUser = mapper.toDto(userService.save(mapper.toEntity(userDto)));
-        return ResponseEntity.ok(newUser);
+        return new ResponseEntity(newUser , HttpStatus.OK);
     }
 
     @PostMapping("/signin")
@@ -29,6 +29,6 @@ public class UserController {
     @PostMapping(value = "/delete account")
     public ResponseEntity<HttpStatus> deleteAccount(@RequestParam Long id){
         userService.delete(id);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
