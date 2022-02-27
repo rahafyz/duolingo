@@ -16,9 +16,9 @@ public class CourseDto implements Serializable {
     @ApiModelProperty(required = true)
     private String name;
 
-    @ApiModelProperty(required = true)
+    @ApiModelProperty(required = false)
     private Language language;
 
-    @ApiModelProperty(required = true)
+    @ApiModelProperty(required = false)
     private Level level;
 }

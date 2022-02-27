@@ -1,11 +1,13 @@
 package com.mapsa.duolingo.user;
 
 import com.mapsa.duolingo.common.BaseEntity;
+import com.mapsa.duolingo.course.Course;
 import com.mapsa.duolingo.level.Level;
 import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -40,5 +42,8 @@ public class User extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_level")
     private Level level;
+
+    @OneToMany
+    private List<Course> courses;
 
 }

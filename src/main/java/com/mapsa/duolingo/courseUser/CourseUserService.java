@@ -1,5 +1,6 @@
-package com.mapsa.duolingo.course;
+package com.mapsa.duolingo.courseUser;
 
+import com.mapsa.duolingo.course.Course;
 import com.mapsa.duolingo.courseUser.CourseUserRepository;
 import com.mapsa.duolingo.courseUser.ICourseUserService;
 import com.mapsa.duolingo.user.User;
@@ -24,5 +25,10 @@ public class CourseUserService implements ICourseUserService {
     @Override
     public List<Course> getCourseByUser(Long userId) {
         return repository.findByUser_Id(userId);
+    }
+
+    @Override
+    public CourseUser save(CourseUser courseUser) {
+        return repository.save(courseUser);
     }
 }

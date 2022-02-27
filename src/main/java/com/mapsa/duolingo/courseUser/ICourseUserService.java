@@ -8,4 +8,5 @@ import java.util.List;
 public interface ICourseUserService{
     List<User> getUsersByCourse(Long courseId);
     List<Course> getCourseByUser(Long userId);
+    CourseUser save(CourseUser courseUser);
 }

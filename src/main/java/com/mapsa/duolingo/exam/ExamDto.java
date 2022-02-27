@@ -13,8 +13,8 @@ public class ExamDto implements Serializable {
     private Long id;
     @ApiModelProperty(required = true, hidden = true)
     private String location;
-    @ApiModelProperty(required = true)
+    @ApiModelProperty
     private Language language;
-    @ApiModelProperty(required = true)
+    @ApiModelProperty
     private Language level;
 }

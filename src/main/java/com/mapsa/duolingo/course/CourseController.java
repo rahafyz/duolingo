@@ -1,13 +1,16 @@
 package com.mapsa.duolingo.course;
 
 import com.mapsa.duolingo.courseUser.ICourseUserService;
+import com.mapsa.duolingo.language.Language;
 import com.mapsa.duolingo.user.User;
+import com.mapsa.duolingo.user.UserDto;
 import com.mapsa.duolingo.user.UserMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -21,21 +24,35 @@ public class CourseController {
     private UserMapper userMapper;
 
 
+    @PostMapping(value = "/add-Course")
+    public ResponseEntity<CourseDto> saveCourse(@RequestBody CourseDto courseDto) {
+        CourseDto newCourse = mapper.toDto(courseService.save(mapper.toEntity(courseDto)));
+        return ResponseEntity.ok(newCourse);
+    }
 
-
-
-
-    //ResponseEntity<--->
-    @GetMapping(value = "/courses")
-    public ResponseEntity<CourseDto> getByLanguage(@RequestParam Long languageId) {
-        List<Course> courses = courseService.getByLang(languageId);
+    @GetMapping(value = "/all-courses")
+    public ResponseEntity<CourseDto> getAllCourses() {
+        List<Course> courses = courseService.getAll();
         return new ResponseEntity(mapper.toListDto(courses), HttpStatus.OK);
     }
 
+    /*@GetMapping(value = "/languages")
+    public ResponseEntity<List<Language>> getAllLangs(){
+        return new ResponseEntity(Arrays.asList(Language.values()),HttpStatus.OK);
+    }
+*/
+    //ResponseEntity<--->
+    @GetMapping(value = "/courses")
+    public ResponseEntity<List<CourseDto>> getByLanguage(@RequestParam Long languageId) {
+        List<Course> courses = courseService.getByLang(languageId);
+        return ResponseEntity.ok(mapper.toListDto(courses));
+    }
+
+
     @GetMapping(value = "/users")
-    public ResponseEntity<User> getUsersByCourse(@RequestParam Long courseId){
+    public ResponseEntity<List<UserDto>> getUsersByCourse(@RequestParam Long courseId) {
         List<User> users = courseUserService.getUsersByCourse(courseId);
-        return new ResponseEntity(userMapper.toListDto(users),HttpStatus.OK);
+        return ResponseEntity.ok(userMapper.toListDto(users));
     }
 
 }
