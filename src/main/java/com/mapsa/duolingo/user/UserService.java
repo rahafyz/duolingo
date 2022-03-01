@@ -6,6 +6,7 @@ import com.mapsa.duolingo.course.CourseService;
 import com.mapsa.duolingo.courseUser.CourseUserKey;
 import com.mapsa.duolingo.courseUser.ICourseUserService;
 import com.mapsa.duolingo.exception.CustomException;
+import com.mapsa.duolingo.exception.NotFoundException;
 import com.mapsa.duolingo.security.JwtBuilder;
 import com.mapsa.duolingo.security.UserDetail;
 import org.springframework.http.HttpStatus;
@@ -56,7 +57,7 @@ public class UserService extends GenericService<User, Long> implements IUserServ
 
     private boolean authentication(String username, String password) {
         User currentUser = userRepository.findUserByUserName(username).orElseThrow(
-                () -> new CustomException("user doesn't exist!", HttpStatus.NOT_FOUND)
+                () -> new NotFoundException("user doesn't exist!")
         );
         return currentUser.getPassword().equals(password);
     }
