@@ -24,20 +24,20 @@ public class UserController {
     UserDetail userDetail;
 
 
-    @RequestMapping(value = "/getById", method = RequestMethod.GET)
+    @RequestMapping(value = "/GET /user/", method = RequestMethod.GET)
     public ResponseEntity<UserDto> getById() {
         Long id = userDetail.getUserId();
         return ResponseEntity.ok(mapper.toDto(userService.getById(id)));
     }
 
 
-    @PostMapping(value = "/register")
+    @PostMapping(value = "/POST /user")
     public ResponseEntity<UserDto> register(@RequestBody UserDto userDto) {
         UserDto newUser = mapper.toDto(userService.save(mapper.toEntity(userDto)));
         return new ResponseEntity(newUser, HttpStatus.OK);
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
 
         return ResponseEntity.ok(userService.login(username, password));
@@ -45,19 +45,19 @@ public class UserController {
 
     }
 
-    @PostMapping(value = "/delete account")
-    public ResponseEntity<HttpStatus> deleteAccount(@RequestParam Long id) {
-        userService.delete(id);
+    @RequestMapping(value = "/POST /delete/", method = RequestMethod.POST)
+    public ResponseEntity<HttpStatus> deleteAccount() {
+        userService.delete(userDetail.getUserId());
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/courses")
-    public ResponseEntity<Course> getCoursesByUser(@RequestParam Long userId) {
-        List<Course> courses = courseUserService.getCourseByUser(userId);
+    @GetMapping(value = "/GET /courses/")
+    public ResponseEntity<Course> getCoursesByUser() {
+        List<Course> courses = courseUserService.getCourseByUser(userDetail.getUserId());
         return new ResponseEntity(courseMapper.toListDto(courses), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/add-course" , method = RequestMethod.POST)
+    @RequestMapping(value = "/POST /course" , method = RequestMethod.POST)
     public ResponseEntity<Void> addCourse(@RequestParam Long courseId){
         userService.addCourse(courseId);
         return ResponseEntity.ok().build();

@@ -16,14 +16,13 @@ public class LanguageController {
     private LanguageMapper mapper;
 
 
-    //java.sql.SQLException: Field 'course_course_id' doesn't have a default value
-    @PostMapping(value = "/admin/add-language")
+    @PostMapping(value = "/admin/POST /language")
     public ResponseEntity<LanguageDto> addLang(@RequestBody LanguageDto dto) {
         Language lan = service.save(mapper.toEntity(dto));
         return ResponseEntity.ok(mapper.toDto(lan));
     }
 
-    @GetMapping(value = "/all-languages")
+    @GetMapping(value = "/GET /languages")
     public ResponseEntity<List<LanguageDto>> getAllLangs() {
         List<Language> languages = service.getAll();
         return ResponseEntity.ok(mapper.toListDto(languages));
