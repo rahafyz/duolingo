@@ -2,7 +2,8 @@ package com.mapsa.duolingo.exam;
 
 import com.mapsa.duolingo.common.GenericRepository;
 import com.mapsa.duolingo.common.GenericService;
-import com.mapsa.duolingo.exception.NotFoundException;
+import com.mapsa.duolingo.exception.CustomException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +20,8 @@ public class ExamService extends GenericService<Exam, Long> implements IExamServ
     public Exam getByLocation(String location) {
         return repository.findByLocation(location).orElseThrow(
                 () -> {
-                    throw new NotFoundException("the exam not found!");
+                    throw new CustomException("the exam not found!", HttpStatus.NOT_FOUND);
+
                 }
         );
     }

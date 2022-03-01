@@ -1,7 +1,8 @@
 package com.mapsa.duolingo.common;
 
 
-import com.mapsa.duolingo.exception.NotFoundException;
+import com.mapsa.duolingo.exception.CustomException;
+import org.springframework.http.HttpStatus;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -28,7 +29,7 @@ public class GenericService<T, U> implements IGenericService<T, U> {
     @Override
     public T getById(U id) {
         return repository.findById(id).orElseThrow(
-                () -> new NotFoundException("There is no " + getEntity() + " by this id"));
+                () -> new CustomException("There is no " + getEntity() + " by this id", HttpStatus.NOT_FOUND));
     }
 
     @Override

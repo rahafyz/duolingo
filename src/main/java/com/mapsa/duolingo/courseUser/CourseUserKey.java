@@ -12,10 +12,10 @@ import java.util.Objects;
 @Data
 public class CourseUserKey implements Serializable {
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", insertable = false, updatable = false)
     Long userId;
 
-    @Column(name = "course_id")
+    @Column(name = "course_id", insertable = false, updatable = false)
     Long courseId;
 
     @Override

@@ -3,9 +3,6 @@ package com.mapsa.duolingo.user;
 
 import com.mapsa.duolingo.course.Course;
 import com.mapsa.duolingo.course.CourseMapper;
-import com.mapsa.duolingo.courseUser.CUMapper;
-import com.mapsa.duolingo.courseUser.CourseUser;
-import com.mapsa.duolingo.courseUser.CourseUserDto;
 import com.mapsa.duolingo.courseUser.CourseUserService;
 import com.mapsa.duolingo.security.UserDetail;
 import lombok.AllArgsConstructor;
@@ -25,7 +22,6 @@ public class UserController {
     UserLoginMapper loginMapper;
     CourseUserService courseUserService;
     UserDetail userDetail;
-    CUMapper cuMapper;
 
 
     @RequestMapping(value = "/getById", method = RequestMethod.GET)

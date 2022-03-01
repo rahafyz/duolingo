@@ -1,40 +1,37 @@
 package com.mapsa.duolingo.exception;
 
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Date;
 
 @RestControllerAdvice
 public class GlobalExceptionHandling {
 
-    @ExceptionHandler(value = NotFoundException.class)
-    public ResponseEntity<?> handleNotFoundException(NotFoundException exception) {
-        Map<String, Object> res = new HashMap<>();
-
-        res.put("message", exception.getMessage());
-
-        return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(value = ConflictException.class)
-    public ResponseEntity<?> handleConflictException(ConflictException exception){
-        Map<String, Object> res = new HashMap<>();
-
-        res.put("message", exception.getMessage());
-
-        return new ResponseEntity<>(res, HttpStatus.CONFLICT);
-    }
 
     @ExceptionHandler(CustomException.class)
-    public void handleCustomException(HttpServletResponse res, CustomException ex) throws IOException {
-        res.sendError(ex.getHttpStatus().value(), ex.getMessage());
+    public ResponseEntity<ResponseDto> handleCustomException(CustomException ex) {
+        ResponseDto response = ResponseDto.builder()
+                .status(ex.getHttpStatus().value())
+                .message(ex.getMessage())
+                .error(ex.getHttpStatus().getReasonPhrase())
+                .timestamp(new Date())
+                .stackTrace(convertStack(ex))
+                .build();
+        return new ResponseEntity<>(response, ex.getHttpStatus());
+    }
+
+    private String convertStack(Exception e) {
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        e.printStackTrace(printWriter);
+        String stackTrace = stringWriter.toString();
+        return stackTrace;
     }
 
 }
