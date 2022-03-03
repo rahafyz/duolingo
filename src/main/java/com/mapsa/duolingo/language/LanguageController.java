@@ -16,13 +16,13 @@ public class LanguageController {
     private LanguageMapper mapper;
 
 
-    @PostMapping(value = "/admin/POST /language")
+    @PostMapping(value = "/admin/language")
     public ResponseEntity<LanguageDto> addLang(@RequestBody LanguageDto dto) {
         Language lan = service.save(mapper.toEntity(dto));
         return ResponseEntity.ok(mapper.toDto(lan));
     }
 
-    @GetMapping(value = "/GET /languages")
+    @GetMapping(value = "/languages")
     public ResponseEntity<List<LanguageDto>> getAllLangs() {
         List<Language> languages = service.getAll();
         return ResponseEntity.ok(mapper.toListDto(languages));

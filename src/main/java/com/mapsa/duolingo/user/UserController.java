@@ -24,14 +24,14 @@ public class UserController {
     UserDetail userDetail;
 
 
-    @RequestMapping(value = "/GET /user/", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/", method = RequestMethod.GET)
     public ResponseEntity<UserDto> getById() {
         Long id = userDetail.getUserId();
         return ResponseEntity.ok(mapper.toDto(userService.getById(id)));
     }
 
 
-    @PostMapping(value = "/POST /user")
+    @PostMapping(value = "/user")
     public ResponseEntity<UserDto> register(@RequestBody UserDto userDto) {
         UserDto newUser = mapper.toDto(userService.save(mapper.toEntity(userDto)));
         return new ResponseEntity(newUser, HttpStatus.OK);
@@ -45,19 +45,19 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/POST /delete/", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete/", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> deleteAccount() {
         userService.delete(userDetail.getUserId());
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/GET /courses/")
+    @GetMapping(value = "/courses/")
     public ResponseEntity<Course> getCoursesByUser() {
         List<Course> courses = courseUserService.getCourseByUser(userDetail.getUserId());
         return new ResponseEntity(courseMapper.toListDto(courses), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/POST /course" , method = RequestMethod.POST)
+    @RequestMapping(value = "/course" , method = RequestMethod.POST)
     public ResponseEntity<Void> addCourse(@RequestParam Long courseId){
         userService.addCourse(courseId);
         return ResponseEntity.ok().build();

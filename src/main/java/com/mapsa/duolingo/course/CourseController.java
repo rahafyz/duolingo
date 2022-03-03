@@ -22,13 +22,13 @@ public class CourseController {
     private UserMapper userMapper;
 
 
-    @PostMapping(value = "POST /course")
+    @PostMapping(value = "/course")
     public ResponseEntity<CourseDto> saveCourse(@RequestBody CourseDto courseDto) {
         CourseDto newCourse = mapper.toDto(courseService.save(mapper.toEntity(courseDto)));
         return ResponseEntity.ok(newCourse);
     }
 
-    @GetMapping(value = "/GET /courses")
+    @GetMapping(value = "/courses")
     public ResponseEntity<CourseDto> getAllCourses() {
         List<Course> courses = courseService.getAll();
         return new ResponseEntity(mapper.toListDto(courses), HttpStatus.OK);
@@ -40,14 +40,14 @@ public class CourseController {
     }
 */
 
-    @GetMapping(value = "/GET /course/")
+    @GetMapping(value = "/course/")
     public ResponseEntity<List<CourseDto>> getByLanguage(@RequestParam Long languageId) {
         List<Course> courses = courseService.getByLang(languageId);
         return ResponseEntity.ok(mapper.toListDto(courses));
     }
 
 
-    @GetMapping(value = "/GET /users/")
+    @GetMapping(value = "/users/")
     public ResponseEntity<List<UserDto>> getUsersByCourse(@RequestParam Long courseId) {
         List<User> users = courseUserService.getUsersByCourse(courseId);
         return ResponseEntity.ok(userMapper.toListDto(users));
