@@ -3,14 +3,18 @@ package com.mapsa.duolingo.course;
 import com.mapsa.duolingo.common.BaseEntity;
 import com.mapsa.duolingo.language.Language;
 import com.mapsa.duolingo.level.Level;
-import lombok.Data;
-import lombok.Getter;
+import com.mapsa.duolingo.level.LevelConverter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Data
 @Table(name = "course")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Course extends BaseEntity {
 
     @Id
@@ -25,8 +29,7 @@ public class Course extends BaseEntity {
     @JoinColumn(name = "course_language")
     private Language language;
 
-    @ManyToOne
-    @JoinColumn(name = "course_level")
+    @Convert(converter = LevelConverter.class)
     private Level level;
 
 

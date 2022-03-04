@@ -1,6 +1,7 @@
 package com.mapsa.duolingo.exam;
 
 import com.mapsa.duolingo.language.Language;
+import com.mapsa.duolingo.level.Level;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,5 +17,5 @@ public class ExamDto implements Serializable {
     @ApiModelProperty
     private Language language;
     @ApiModelProperty
-    private Language level;
+    private Level level;
 }

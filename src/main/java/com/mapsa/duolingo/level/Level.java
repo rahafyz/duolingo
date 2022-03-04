@@ -1,20 +1,25 @@
 package com.mapsa.duolingo.level;
 
-import lombok.Data;
 
-import javax.persistence.*;
+import java.util.Arrays;
+import java.util.Objects;
 
-@Entity
-@Data
-@Table(name = "level")
-public class Level {
+public enum Level {
+    BEGINNER(0), ELEMENTARY(1), PRE_INTERMEDIATE(2), INTERMEDIATE(3), UPPER_INTERMEDIATE(4), ADVANCED(5);
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "level_id")
-    private Long id;
+    private Integer value;
 
-    @Column(name = "level")
-    private String level;
+    Level(Integer value) {
+        this.value = value;
+    }
 
+    public Integer getValue() {
+        return value;
+    }
+
+    public static Level of(Integer value){
+        return Arrays.stream(Level.values()).filter(size -> Objects.equals(size.getValue(), value))
+                .findFirst()
+                .orElseThrow(() -> {throw new IllegalArgumentException();});
+    }
 }

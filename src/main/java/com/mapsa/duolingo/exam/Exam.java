@@ -3,6 +3,7 @@ package com.mapsa.duolingo.exam;
 import com.mapsa.duolingo.common.BaseEntity;
 import com.mapsa.duolingo.level.Level;
 import com.mapsa.duolingo.language.Language;
+import com.mapsa.duolingo.level.LevelConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -24,8 +25,7 @@ public class Exam extends BaseEntity {
     @JoinColumn(name = "emax_language")
     private Language language;
 
-    @ManyToOne
-    @JoinColumn(name = "exam_level")
+    @Convert(converter = LevelConverter.class)
     private Level level;
 
 

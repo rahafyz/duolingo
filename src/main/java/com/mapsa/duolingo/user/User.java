@@ -3,6 +3,7 @@ package com.mapsa.duolingo.user;
 import com.mapsa.duolingo.common.BaseEntity;
 import com.mapsa.duolingo.course.Course;
 import com.mapsa.duolingo.level.Level;
+import com.mapsa.duolingo.level.LevelConverter;
 import com.sun.istack.NotNull;
 import lombok.Data;
 
@@ -39,9 +40,8 @@ public class User extends BaseEntity {
     @NotNull
     private String emailAddress;
 
-    @ManyToOne
-    @JoinColumn(name = "user_level")
-    private Level level;
+    @Convert(converter = LevelConverter.class)
+    private Level level= Level.BEGINNER;
 
     @OneToMany
     private List<Course> courses;
