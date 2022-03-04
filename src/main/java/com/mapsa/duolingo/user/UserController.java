@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -113,6 +114,16 @@ public class UserController {
 
         testService.save(userDetail.getUserId(),examId);
 
+        String uri = "http://localhost:9090/user/level";
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getForEntity(uri,User.class);
+
+
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(value = "/level")
+    public ResponseEntity<UserDto> changeLevel(){
+        return ResponseEntity.ok(mapper.toDto(userService.changeLevel(userDetail.getUserId())));
     }
 }

@@ -7,6 +7,7 @@ import com.mapsa.duolingo.courseUser.CourseUserKey;
 import com.mapsa.duolingo.courseUser.ICourseUserService;
 import com.mapsa.duolingo.exception.CustomException;
 import com.mapsa.duolingo.exception.NotFoundException;
+import com.mapsa.duolingo.level.Level;
 import com.mapsa.duolingo.security.JwtBuilder;
 import com.mapsa.duolingo.security.UserDetail;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,19 @@ public class UserService extends GenericService<User, Long> implements IUserServ
         courseUserKey.setCourseId(courseId);
         courseUserKey.setUserId(userDetail.getUserId());
         courseUserService.save(courseUserKey);
+    }
+
+    @Override
+    public User changeLevel(Long userId) {
+        User user = getById(userId);
+        Integer level = user.getLevel().getValue();
+        if (level<6) {
+            level = +1;
+            Level newLevel = Level.of(level);
+            user.setLevel(newLevel);
+            userRepository.save(user);
+        }
+        return user;
     }
 
     private boolean authentication(String username, String password) {
