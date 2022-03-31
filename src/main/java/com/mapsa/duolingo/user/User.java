@@ -1,8 +1,9 @@
 package com.mapsa.duolingo.user;
 
 import com.mapsa.duolingo.common.BaseEntity;
-import com.mapsa.duolingo.course.Course;
+import com.mapsa.duolingo.courseUser.CourseUser;
 import com.mapsa.duolingo.level.Level;
+import com.mapsa.duolingo.level.LevelConverter;
 import com.sun.istack.NotNull;
 import lombok.Data;
 
@@ -39,11 +40,23 @@ public class User extends BaseEntity {
     @NotNull
     private String emailAddress;
 
-    @ManyToOne
-    @JoinColumn(name = "user_level")
-    private Level level;
+    @Convert(converter = LevelConverter.class)
+    private Level level= Level.BEGINNER;
 
-    @OneToMany
-    private List<Course> courses;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private List<CourseUser> courses;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", level=" + level +
+                ", courses=" + courses +
+                '}';
+    }
 }

@@ -2,15 +2,21 @@ package com.mapsa.duolingo.user;
 
 import com.mapsa.duolingo.common.GenericRepository;
 import com.mapsa.duolingo.common.GenericService;
+import com.mapsa.duolingo.course.Course;
 import com.mapsa.duolingo.course.CourseService;
+import com.mapsa.duolingo.courseUser.CourseUser;
 import com.mapsa.duolingo.courseUser.CourseUserKey;
 import com.mapsa.duolingo.courseUser.ICourseUserService;
 import com.mapsa.duolingo.exception.CustomException;
 import com.mapsa.duolingo.exception.NotFoundException;
+import com.mapsa.duolingo.level.Level;
 import com.mapsa.duolingo.security.JwtBuilder;
 import com.mapsa.duolingo.security.UserDetail;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -53,6 +59,25 @@ public class UserService extends GenericService<User, Long> implements IUserServ
         courseUserKey.setCourseId(courseId);
         courseUserKey.setUserId(userDetail.getUserId());
         courseUserService.save(courseUserKey);
+    }
+
+    @Override
+    public User changeLevel(Long userId) {
+        User user = getById(userId);
+        Integer level = user.getLevel().getValue();
+        if (level<6) {
+            level = +1;
+            Level newLevel = Level.of(level);
+            user.setLevel(newLevel);
+            userRepository.save(user);
+        }
+        return user;
+    }
+
+    @Override
+    public List<Course> getUserCourses(User user){
+        List<Course> courses = user.getCourses().stream().map(CourseUser::getCourse).collect(Collectors.toList());
+        return courses;
     }
 
     private boolean authentication(String username, String password) {

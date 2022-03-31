@@ -3,7 +3,10 @@ package com.mapsa.duolingo.test;
 import com.mapsa.duolingo.common.BaseEntity;
 import com.mapsa.duolingo.exam.Exam;
 import com.mapsa.duolingo.user.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,6 +15,9 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "test")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Test extends BaseEntity {
 
     @Id

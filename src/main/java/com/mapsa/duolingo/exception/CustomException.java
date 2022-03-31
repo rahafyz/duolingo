@@ -6,6 +6,7 @@ public class CustomException extends RuntimeException{
 
     private final String message;
     private final HttpStatus httpStatus;
+    private Throwable cause;
 
     public CustomException(String message, HttpStatus httpStatus) {
         this.message = message;
@@ -15,6 +16,13 @@ public class CustomException extends RuntimeException{
     @Override
     public String getMessage() {
         return message;
+    }
+
+    public CustomException(String message, HttpStatus httpStatus, Throwable cause) {
+        this.message = message;
+        this.httpStatus = httpStatus;
+        this.cause = cause;
+
     }
 
     public HttpStatus getHttpStatus() {

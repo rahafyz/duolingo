@@ -1,11 +1,13 @@
 package com.mapsa.duolingo.course;
 
 import com.mapsa.duolingo.language.Language;
+import com.mapsa.duolingo.language.LanguageDto;
 import com.mapsa.duolingo.level.Level;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class CourseDto implements Serializable {
@@ -21,4 +23,5 @@ public class CourseDto implements Serializable {
 
     @ApiModelProperty(required = false)
     private Level level;
+
 }

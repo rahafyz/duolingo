@@ -4,24 +4,39 @@ package com.mapsa.duolingo.user;
 import com.mapsa.duolingo.course.Course;
 import com.mapsa.duolingo.course.CourseMapper;
 import com.mapsa.duolingo.courseUser.CourseUserService;
+import com.mapsa.duolingo.exam.ExamDto;
+import com.mapsa.duolingo.exam.ExamService;
 import com.mapsa.duolingo.security.UserDetail;
+import com.mapsa.duolingo.test.Test;
+import com.mapsa.duolingo.test.TestService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/user")
 public class UserController {
-    IUserService userService;
-    UserMapper mapper;
-    CourseMapper courseMapper;
-    UserLoginMapper loginMapper;
-    CourseUserService courseUserService;
-    UserDetail userDetail;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private IUserService userService;
+    private UserMapper mapper;
+    private CourseMapper courseMapper;
+    private UserDetail userDetail;
+    private ExamService examService;
+    private TestService testService;
 
 
     @RequestMapping(value = "/user/", method = RequestMethod.GET)
@@ -52,8 +67,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/courses/")
-    public ResponseEntity<Course> getCoursesByUser() {
-        List<Course> courses = courseUserService.getCourseByUser(userDetail.getUserId());
+    public ResponseEntity<List<Course>> getCoursesByUser() {
+        List<Course> courses = userService.getUserCourses(userService.getById(userDetail.getUserId()));
         return new ResponseEntity(courseMapper.toListDto(courses), HttpStatus.OK);
     }
 
@@ -61,5 +76,49 @@ public class UserController {
     public ResponseEntity<Void> addCourse(@RequestParam Long courseId){
         userService.addCourse(courseId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = "/test")
+    public ResponseEntity<Resource> downloadFile(@RequestParam Long examId, HttpServletRequest request) {
+        // Load file as Resource
+        Resource resource = examService.loadFileExam(examId);
+
+        // Try to determine file's content type
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+            logger.info("Could not determine file type.");
+        }
+
+        // Fallback to the default content type if type could not be determined
+        if(contentType == null) {
+            contentType = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
+
+    @PostMapping(value = "/test")
+    public ResponseEntity<String> uploadFile(@RequestParam("examId") Long examId,@RequestParam MultipartFile file) {
+        String fileName = testService.storeFile(userDetail.getUserId(),examId,file);
+
+        ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/downloadFile/")
+                .path(fileName)
+                .toUriString();
+
+        testService.save(userDetail.getUserId(),examId);
+
+
+        return ResponseEntity.ok("http://localhost:9090/user/level");
+    }
+
+    @PutMapping(value = "/level")
+    public ResponseEntity<UserDto> changeLevel(){
+        return ResponseEntity.ok(mapper.toDto(userService.changeLevel(userDetail.getUserId())));
     }
 }

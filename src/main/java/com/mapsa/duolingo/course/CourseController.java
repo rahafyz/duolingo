@@ -49,7 +49,7 @@ public class CourseController {
 
     @GetMapping(value = "/users/")
     public ResponseEntity<List<UserDto>> getUsersByCourse(@RequestParam Long courseId) {
-        List<User> users = courseUserService.getUsersByCourse(courseId);
+        List<User> users = courseService.users(courseService.getById(courseId));
         return ResponseEntity.ok(userMapper.toListDto(users));
     }
 

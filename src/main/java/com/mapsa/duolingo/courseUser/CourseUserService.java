@@ -22,15 +22,6 @@ public class CourseUserService implements ICourseUserService {
         this.userService = userService;
     }
 
-    @Override
-    public List<User> getUsersByCourse(Long courseId) {
-        return repository.findByCourse_Id(courseId);
-    }
-
-    @Override
-    public List<Course> getCourseByUser(Long userId) {
-        return repository.findByUser_Id(userId);
-    }
 
     @Override
     public CourseUser save(CourseUserKey id) {
