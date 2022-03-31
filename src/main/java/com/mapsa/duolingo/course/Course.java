@@ -1,9 +1,11 @@
 package com.mapsa.duolingo.course;
 
 import com.mapsa.duolingo.common.BaseEntity;
+import com.mapsa.duolingo.courseUser.CourseUser;
 import com.mapsa.duolingo.language.Language;
 import com.mapsa.duolingo.level.Level;
 import com.mapsa.duolingo.level.LevelConverter;
+import com.mapsa.duolingo.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,6 +33,9 @@ public class Course extends BaseEntity {
 
     @Convert(converter = LevelConverter.class)
     private Level level;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "course")
+    private List<CourseUser> users;
 
 
 

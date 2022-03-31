@@ -2,7 +2,9 @@ package com.mapsa.duolingo.user;
 
 import com.mapsa.duolingo.common.GenericRepository;
 import com.mapsa.duolingo.common.GenericService;
+import com.mapsa.duolingo.course.Course;
 import com.mapsa.duolingo.course.CourseService;
+import com.mapsa.duolingo.courseUser.CourseUser;
 import com.mapsa.duolingo.courseUser.CourseUserKey;
 import com.mapsa.duolingo.courseUser.ICourseUserService;
 import com.mapsa.duolingo.exception.CustomException;
@@ -12,6 +14,9 @@ import com.mapsa.duolingo.security.JwtBuilder;
 import com.mapsa.duolingo.security.UserDetail;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -67,6 +72,12 @@ public class UserService extends GenericService<User, Long> implements IUserServ
             userRepository.save(user);
         }
         return user;
+    }
+
+    @Override
+    public List<Course> getUserCourses(User user){
+        List<Course> courses = user.getCourses().stream().map(CourseUser::getCourse).collect(Collectors.toList());
+        return courses;
     }
 
     private boolean authentication(String username, String password) {

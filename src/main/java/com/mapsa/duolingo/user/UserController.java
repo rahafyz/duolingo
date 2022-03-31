@@ -34,7 +34,6 @@ public class UserController {
     private IUserService userService;
     private UserMapper mapper;
     private CourseMapper courseMapper;
-    private CourseUserService courseUserService;
     private UserDetail userDetail;
     private ExamService examService;
     private TestService testService;
@@ -68,8 +67,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/courses/")
-    public ResponseEntity<Course> getCoursesByUser() {
-        List<Course> courses = courseUserService.getCourseByUser(userDetail.getUserId());
+    public ResponseEntity<List<Course>> getCoursesByUser() {
+        List<Course> courses = userService.getUserCourses(userService.getById(userDetail.getUserId()));
         return new ResponseEntity(courseMapper.toListDto(courses), HttpStatus.OK);
     }
 
@@ -104,7 +103,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/test")
-    public ResponseEntity<Void> uploadFile(@RequestParam("examId") Long examId,@RequestParam MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@RequestParam("examId") Long examId,@RequestParam MultipartFile file) {
         String fileName = testService.storeFile(userDetail.getUserId(),examId,file);
 
         ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -114,12 +113,8 @@ public class UserController {
 
         testService.save(userDetail.getUserId(),examId);
 
-        String uri = "http://localhost:9090/user/level";
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getForEntity(uri,User.class);
 
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("http://localhost:9090/user/level");
     }
 
     @PutMapping(value = "/level")
