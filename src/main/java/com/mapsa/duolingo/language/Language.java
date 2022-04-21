@@ -1,12 +1,16 @@
 package com.mapsa.duolingo.language;
 
 import com.mapsa.duolingo.common.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "language")
 public class Language{
 

@@ -2,18 +2,16 @@ package com.mapsa.duolingo.common;
 
 
 import com.mapsa.duolingo.exception.CustomException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 
-public class GenericService<T, U> implements IGenericService<T, U> {
-    private GenericRepository<T, U> repository;
+public abstract class GenericService<T, U> implements IGenericService<T, U> {
 
-    public GenericService(GenericRepository<T, U> repository) {
-        this.repository = repository;
-    }
+    protected abstract GenericRepository<T, U> getRepository();
 
     private String getEntity() {
         return ((ParameterizedType) getClass().getGenericSuperclass())
@@ -22,30 +20,30 @@ public class GenericService<T, U> implements IGenericService<T, U> {
 
     @Override
     public T save(T entity) {
-        return repository.save(entity);
+        return getRepository().save(entity);
     }
 
     //add exceptions and get subclass
     @Override
     public T getById(U id) {
-        return repository.findById(id).orElseThrow(
+        return getRepository().findById(id).orElseThrow(
                 () -> new CustomException("There is no " + getEntity() + " by this id", HttpStatus.NOT_FOUND));
     }
 
     @Override
     public List<T> getAll() {
-        return (List<T>) repository.findAll();
+        return (List<T>) getRepository().findAll();
     }
 
     @Override
     public void delete(U id) {
         getById(id);
-        repository.deleteById(id);
+        getRepository().deleteById(id);
     }
 
     @Override
     public void update(U id, T entity) {
         T update = getById(id);
-        repository.save(update);
+        getRepository().save(update);
     }
 }

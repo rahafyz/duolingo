@@ -5,7 +5,8 @@ import com.mapsa.duolingo.user.User;
 import com.mapsa.duolingo.user.UserDto;
 import com.mapsa.duolingo.user.UserMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,21 +18,21 @@ import java.util.List;
 public class CourseController {
 
     private ICourseService courseService;
-    private ICourseUserService courseUserService;
     private CourseMapper mapper;
     private UserMapper userMapper;
 
-
+    @CacheEvict(value = "courses")
     @PostMapping(value = "/course")
     public ResponseEntity<CourseDto> saveCourse(@RequestBody CourseDto courseDto) {
         CourseDto newCourse = mapper.toDto(courseService.save(mapper.toEntity(courseDto)));
         return ResponseEntity.ok(newCourse);
     }
 
+    @Cacheable(value = "all-courses")
     @GetMapping(value = "/courses")
-    public ResponseEntity<CourseDto> getAllCourses() {
+    public List<CourseDto> getAllCourses() {
         List<Course> courses = courseService.getAll();
-        return new ResponseEntity(mapper.toListDto(courses), HttpStatus.OK);
+        return mapper.toListDto(courses);
     }
 
     /*@GetMapping(value = "/languages")
@@ -39,6 +40,7 @@ public class CourseController {
         return new ResponseEntity(Arrays.asList(Language.values()),HttpStatus.OK);
     }
 */
+
 
     @GetMapping(value = "/course/")
     public ResponseEntity<List<CourseDto>> getByLanguage(@RequestParam Long languageId) {
@@ -49,7 +51,7 @@ public class CourseController {
 
     @GetMapping(value = "/users/")
     public ResponseEntity<List<UserDto>> getUsersByCourse(@RequestParam Long courseId) {
-        List<User> users = courseService.users(courseService.getById(courseId));
+        List<User> users = courseService.users(courseId);
         return ResponseEntity.ok(userMapper.toListDto(users));
     }
 

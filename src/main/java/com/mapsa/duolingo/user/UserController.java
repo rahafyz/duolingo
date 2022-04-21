@@ -121,4 +121,10 @@ public class UserController {
     public ResponseEntity<UserDto> changeLevel(){
         return ResponseEntity.ok(mapper.toDto(userService.changeLevel(userDetail.getUserId())));
     }
+
+    @GetMapping(value = "/course/")
+    public ResponseEntity<List<UserDto>> search(@RequestParam String courseName){
+        List<User> users = userService.findByCourseName(courseName);
+        return ResponseEntity.ok(mapper.toListDto(users));
+    }
 }

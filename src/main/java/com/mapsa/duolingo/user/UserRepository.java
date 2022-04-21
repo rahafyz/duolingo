@@ -4,6 +4,8 @@ import com.mapsa.duolingo.common.GenericRepository;
 import com.mapsa.duolingo.course.Course;
 import com.mapsa.duolingo.courseUser.CourseUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,4 +15,13 @@ import java.util.Optional;
 public interface UserRepository extends GenericRepository<User,Long> {
     boolean existsUserByEmailAddressOrUserName(String emailAddress,String username);
     Optional<User> findUserByUserName(String username);
+
+    @Query(value = """
+            select * from duolingo.user u
+            inner join duolingo.course_user cu
+            on cu.user_id=u.user_id
+            Inner join duolingo.course c
+            on cu.course_id=c.course_id
+            where c.name= :courseName""",nativeQuery = true)
+    List<User> findByCourse_name(@Param("courseName") String courseName);
 }

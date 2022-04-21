@@ -27,8 +27,12 @@ public class TestService extends GenericService<Test,Long> implements ITestServi
     private IUserService userService;
     private final Path fileStorageLocation;
 
-    public TestService(GenericRepository<Test, Long> repository, TestRepository repository1, IExamService examService, @Lazy IUserService userService, FileStorageProperties properties) {
-        super(repository);
+    @Override
+    protected GenericRepository<Test, Long> getRepository() {
+        return repository;
+    }
+
+    public TestService(TestRepository repository1, IExamService examService, @Lazy IUserService userService, FileStorageProperties properties) {
         this.repository = repository1;
         this.examService = examService;
         this.userService = userService;
