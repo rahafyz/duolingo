@@ -53,7 +53,6 @@ public class CourseTest {
         Course course = getCourse();
         when(repository.findById(ID)).thenReturn(Optional.of(course));
         Assertions.assertEquals(course, service.getById(ID));
-
     }
 
     @Test

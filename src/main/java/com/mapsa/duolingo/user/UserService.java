@@ -97,7 +97,6 @@ public class UserService extends GenericService<User, Long> implements IUserServ
     }
 
     @Override
-    @Cacheable(value = "course", key = "#courseName")
     public List<User> findByCourseName(String courseName) {
         return userRepository.findByCourse_name(courseName);
     }

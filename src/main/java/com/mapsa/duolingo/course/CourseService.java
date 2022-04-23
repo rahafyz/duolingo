@@ -22,13 +22,11 @@ public class CourseService extends GenericService<Course,Long> implements ICours
         return courseRepository;
     }
 
-    @Cacheable(value = "courses", key = "#langId")
     public List<Course> getByLang(Long langId){
         return courseRepository.findByLanguage(langId);
     }
 
     @Override
-    @Cacheable(value = "users")
     public List<User> users(Long courseId) {
         List<User> users = getById(courseId).getUsers().stream().map(CourseUser::getUser).toList();
         return users;

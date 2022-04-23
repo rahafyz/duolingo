@@ -28,11 +28,10 @@ public class CourseController {
         return ResponseEntity.ok(newCourse);
     }
 
-    @Cacheable(value = "all-courses")
     @GetMapping(value = "/courses")
-    public List<CourseDto> getAllCourses() {
+    public ResponseEntity<List<CourseDto>> getAllCourses() {
         List<Course> courses = courseService.getAll();
-        return mapper.toListDto(courses);
+        return ResponseEntity.ok(mapper.toListDto(courses));
     }
 
     /*@GetMapping(value = "/languages")
