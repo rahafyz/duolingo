@@ -1,12 +1,10 @@
 package com.mapsa.duolingo.course;
 
-import com.mapsa.duolingo.courseUser.ICourseUserService;
 import com.mapsa.duolingo.user.User;
 import com.mapsa.duolingo.user.UserDto;
 import com.mapsa.duolingo.user.UserMapper;
-import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,18 +12,24 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/course")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CourseController {
 
-    private ICourseService courseService;
+    private final ICourseService courseService;
     private CourseMapper mapper;
     private UserMapper userMapper;
 
-    @CacheEvict(value = "courses")
+    @Autowired
+    public CourseController(ICourseService courseService, CourseMapper mapper, UserMapper userMapper) {
+        this.courseService = courseService;
+        this.mapper = mapper;
+        this.userMapper = userMapper;
+    }
+
     @PostMapping(value = "/course")
-    public ResponseEntity<CourseDto> saveCourse(@RequestBody CourseDto courseDto) {
-        CourseDto newCourse = mapper.toDto(courseService.save(mapper.toEntity(courseDto)));
-        return ResponseEntity.ok(newCourse);
+    public ResponseEntity<Void> saveCourse(@RequestBody CourseDto courseDto) {
+        mapper.toDto(courseService.save(mapper.toEntity(courseDto)));
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping(value = "/courses")

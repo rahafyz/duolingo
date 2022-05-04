@@ -4,6 +4,7 @@ package com.mapsa.duolingo.course;
 import com.mapsa.duolingo.courseUser.CourseUser;
 import com.mapsa.duolingo.exception.CustomException;
 import com.mapsa.duolingo.language.Language;
+import com.mapsa.duolingo.level.Level;
 import com.mapsa.duolingo.user.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,11 +20,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-public class CourseTest {
+public class CourseServiceTest {
 
     @Mock
     CourseRepository repository;
@@ -46,22 +47,63 @@ public class CourseTest {
         when(repository.findAll()).thenReturn(courses);
         //then
         Assertions.assertEquals(course, service.getAll().get(0));
+    }//itarate
+
+    @Test
+    public void save_shouldReturnCourse() {
+        Course course = getCourse();
+
+        when(repository.save(course)).thenReturn(course);
+
+        Assertions.assertEquals(course, service.save(course));
+        Assertions.assertNotNull(service.save(course).getId());
+
+        verify(repository, times(2)).save(course);
     }
+
 
     @Test
     public void getById_shouldGetCourse() {
         Course course = getCourse();
+
         when(repository.findById(ID)).thenReturn(Optional.of(course));
+
         Assertions.assertEquals(course, service.getById(ID));
+        Assertions.assertNotNull(service.getById(ID));
+        Assertions.assertEquals(course.getId(), service.getById(ID).getId());
+        Assertions.assertEquals(course.getName(), service.getById(ID).getName());
+        Assertions.assertEquals(course.getLanguage(), service.getById(ID).getLanguage());
     }
 
     @Test
     public void getById_whenNotFound_shouldThrowException() {
-        when(repository.findById(ID)).thenReturn(Optional.empty());
+        when(repository.findById(anyLong())).thenReturn(Optional.empty());
 
         Assertions.assertThrows(CustomException.class, () -> {
-            service.getById(anyLong());
+            service.getById(ID);
         });
+    }
+
+    @Test
+    public void getAll_shouldReturnListCourse() {
+        when(repository.findAll()).thenReturn(getListCourse());
+
+        getListCourse().forEach(course -> {
+            Assertions.assertTrue(service.getAll().contains(course));
+        });
+
+        Assertions.assertArrayEquals(getListCourse().toArray(),
+                service.getAll().toArray());
+
+        Assertions.assertEquals(getListCourse().size(), service.getAll().size());
+    }
+
+
+    @Test
+    public void getAll_WhenNoCourseExist_shouldReturnNull() {
+        when(repository.findAll()).thenReturn(Collections.EMPTY_LIST);
+
+        Assertions.assertEquals(Collections.EMPTY_LIST, service.getAll());
     }
 
     @Test
@@ -80,7 +122,6 @@ public class CourseTest {
         when(repository.findById(ID)).thenReturn(Optional.of(course));
 
         Assertions.assertEquals(course.getUsers().stream().map(CourseUser::getUser).collect(Collectors.toList()), service.users(ID));
-
     }
 
     @Test
@@ -98,14 +139,14 @@ public class CourseTest {
     }
 
     private Course getCourse() {
-        Course course = new Course();
-        course.setId(ID);
+        Course course = Course.builder().id(ID).name("EnglishCourse").level(Level.ADVANCED).build();
         return course;
     }
 
     private List<Course> getListCourse() {
         List<Course> courses = new ArrayList<>();
         courses.add(getCourse());
+        courses.add(Course.builder().id(3l).name("name").build());
         return courses;
     }
 

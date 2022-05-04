@@ -5,8 +5,6 @@ import com.mapsa.duolingo.common.GenericService;
 import com.mapsa.duolingo.courseUser.CourseUser;
 import com.mapsa.duolingo.user.User;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -11,6 +11,9 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "course_user")
 public class CourseUser {
 

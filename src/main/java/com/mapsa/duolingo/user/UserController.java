@@ -119,6 +119,7 @@ public class UserController {
 
     @PutMapping(value = "/level")
     public ResponseEntity<UserDto> changeLevel(){
+
         return ResponseEntity.ok(mapper.toDto(userService.changeLevel(userDetail.getUserId())));
     }
 

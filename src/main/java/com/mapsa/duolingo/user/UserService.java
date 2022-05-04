@@ -29,17 +29,9 @@ import java.util.stream.Collectors;
 public class UserService extends GenericService<User, Long> implements IUserService {
 
     private final UserRepository userRepository;
-    private JwtBuilder jwtBuilder;
-    private ICourseUserService courseUserService;
-    private UserDetail userDetail;
-
-    @Autowired
-    public UserService( UserRepository userRepository, JwtBuilder jwtBuilder, ICourseUserService courseUserService, UserDetail userDetail) {
-        this.userRepository = userRepository;
-        this.jwtBuilder = jwtBuilder;
-        this.courseUserService = courseUserService;
-        this.userDetail = userDetail;
-    }
+    private final JwtBuilder jwtBuilder;
+    private final ICourseUserService courseUserService;
+    private final UserDetail userDetail;
 
     @Override
     protected GenericRepository<User, Long> getRepository() {

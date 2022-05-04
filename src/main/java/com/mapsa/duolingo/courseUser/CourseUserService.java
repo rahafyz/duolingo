@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CourseUserService implements ICourseUserService {
 
     private CourseUserRepository repository;
