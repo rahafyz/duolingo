@@ -4,6 +4,7 @@ import com.mapsa.duolingo.course.Course;
 import com.mapsa.duolingo.course.CourseService;
 import com.mapsa.duolingo.user.User;
 import com.mapsa.duolingo.user.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 

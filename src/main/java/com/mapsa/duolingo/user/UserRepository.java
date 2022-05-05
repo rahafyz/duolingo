@@ -19,13 +19,7 @@ public interface UserRepository extends GenericRepository<User,Long> {
     boolean existsUserByEmailAddressOrUserName(String emailAddress,String username);
     Optional<User> findUserByUserName(String username);
 
-    @Query(value = """
-            select * from duolingo.user u
-            inner join duolingo.course_user cu
-            on cu.user_id=u.user_id
-            Inner join duolingo.course c
-            on cu.course_id=c.course_id
-            where c.name= :courseName""",nativeQuery = true)
+    @Query(value = " select * from duolingo.user u inner join duolingo.course_user cu on cu.user_id=u.user_id Inner join duolingo.course c on cu.course_id=c.course_id where c.name= :courseName",nativeQuery = true)
     @Cacheable(value = "user" , key = "#p0")
     List<User> findByCourse_name(@Param("courseName") String courseName);
 

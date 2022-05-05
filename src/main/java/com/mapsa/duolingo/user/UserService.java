@@ -66,8 +66,8 @@ public class UserService extends GenericService<User, Long> implements IUserServ
     public User changeLevel(Long userId) {
         User user = getById(userId);
         Integer level = user.getLevel().getValue();
-        if (level<6) {
-            level = +1;
+        if (level<5) {
+            level +=1;
             Level newLevel = Level.of(level);
             user.setLevel(newLevel);
             userRepository.save(user);

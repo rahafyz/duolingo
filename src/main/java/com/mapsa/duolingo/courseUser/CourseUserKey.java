@@ -28,8 +28,9 @@ public class CourseUserKey implements Serializable {
     public boolean equals(Object o) {
         if(null == o) return false;
         if (this == o) return true;
-        if (!(o instanceof CourseUserKey that)) return false;
-        return userId.equals(that.userId) && courseId.equals(that.courseId);
+//        if (!(o instanceof CourseUserKey that)) return false;
+//        return userId.equals(that.userId) && courseId.equals(that.courseId);
+        return true;
     }
 
     @Override

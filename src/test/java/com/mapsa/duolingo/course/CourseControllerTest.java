@@ -32,7 +32,6 @@ public class CourseControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
     private MockMvc mockMvc;
 
     @BeforeEach

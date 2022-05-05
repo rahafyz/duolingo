@@ -167,27 +167,24 @@ public class UserServiceTest {
 
     }
 
-    /*@Test
+    @Test
     public void addCourse_whenCourseNotExist_shouldThrowException() {
         CourseUserKey cuKey = CourseUserKey.builder().courseId(ID).userId(userDetail.getUserId()).build();
 
-        when(courseService.getById(ID)).thenThrow(CustomException.class);
+//        when(courseService.sa).thenThrow(CustomException.class);
 
 //        when(courseUserService.save(cuKey)).thenThrow(CustomException.class);
 
         Assertions.assertThrows(CustomException.class, () -> {
             service.addCourse(ID);
         });
-    }*/
+    }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/csv/change_level.csv", numLinesToSkip = 1)
     public void ChangeState_shouldWork(Level first, Level second) {
         User user = User.builder().id(ID).level(first).build();
-//        when(repository.findById(ID)).thenReturn(Optional.of(user));
-
-//        service.changeLevel(ID);
-        when(repository.save(user)).thenReturn(user);
+        when(repository.findById(ID)).thenReturn(Optional.of(user));
 
         Assertions.assertEquals(service.changeLevel(ID).getLevel(), second);
 

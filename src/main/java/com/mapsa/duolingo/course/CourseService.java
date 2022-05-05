@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -26,7 +27,7 @@ public class CourseService extends GenericService<Course,Long> implements ICours
 
     @Override
     public List<User> users(Long courseId) {
-        List<User> users = getById(courseId).getUsers().stream().map(CourseUser::getUser).toList();
+        List<User> users = getById(courseId).getUsers().stream().map(CourseUser::getUser).collect(Collectors.toList());
         return users;
     }
 }
