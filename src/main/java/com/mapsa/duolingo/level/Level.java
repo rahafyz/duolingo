@@ -17,9 +17,11 @@ public enum Level {
         return value;
     }
 
-    public static Level of(Integer value){
+    public static Level of(Integer value) {
         return Arrays.stream(Level.values()).filter(size -> Objects.equals(size.getValue(), value))
                 .findFirst()
-                .orElseThrow(() -> {throw new IllegalArgumentException();});
+                .orElseThrow(() -> {
+                    throw new IllegalArgumentException();
+                });
     }
 }
