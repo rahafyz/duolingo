@@ -7,4 +7,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 public interface CourseUserRepository extends PagingAndSortingRepository<CourseUser, CourseUserKey> {
+    List<CourseUser> findByCourse_Id(Long courseId);
+
 }

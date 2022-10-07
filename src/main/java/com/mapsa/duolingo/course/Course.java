@@ -9,6 +9,7 @@ import com.mapsa.duolingo.user.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -17,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Course extends BaseEntity {
+public class Course extends BaseEntity implements Serializable {
 
     @Id
     @Column(name = "course_id")
@@ -32,9 +33,10 @@ public class Course extends BaseEntity {
     private Language language;
 
     @Convert(converter = LevelConverter.class)
+    @Column(name = "course_level")
     private Level level;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "course")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
     private List<CourseUser> users;
 
 

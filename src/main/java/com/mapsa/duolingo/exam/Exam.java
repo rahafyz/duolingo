@@ -26,6 +26,7 @@ public class Exam extends BaseEntity {
     private Language language;
 
     @Convert(converter = LevelConverter.class)
+    @Column(name = "emax_level")
     private Level level;
 
 

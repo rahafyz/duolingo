@@ -12,6 +12,11 @@ import com.mapsa.duolingo.exception.NotFoundException;
 import com.mapsa.duolingo.level.Level;
 import com.mapsa.duolingo.security.JwtBuilder;
 import com.mapsa.duolingo.security.UserDetail;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -20,21 +25,17 @@ import java.util.stream.Collectors;
 
 
 @Service
+@RequiredArgsConstructor
 public class UserService extends GenericService<User, Long> implements IUserService {
 
-    private UserRepository userRepository;
-    private JwtBuilder jwtBuilder;
-    private ICourseUserService courseUserService;
-    private CourseService courseService;
-    private UserDetail userDetail;
+    private final UserRepository userRepository;
+    private final JwtBuilder jwtBuilder;
+    private final ICourseUserService courseUserService;
+    private final UserDetail userDetail;
 
-    public UserService(GenericRepository<User, Long> repository, UserRepository userRepository, JwtBuilder jwtBuilder, ICourseUserService courseUserService, CourseService courseService, UserDetail userDetail) {
-        super(repository);
-        this.userRepository = userRepository;
-        this.jwtBuilder = jwtBuilder;
-        this.courseUserService = courseUserService;
-        this.courseService = courseService;
-        this.userDetail = userDetail;
+    @Override
+    protected GenericRepository<User, Long> getRepository() {
+        return userRepository;
     }
 
     @Override
@@ -65,8 +66,8 @@ public class UserService extends GenericService<User, Long> implements IUserServ
     public User changeLevel(Long userId) {
         User user = getById(userId);
         Integer level = user.getLevel().getValue();
-        if (level<6) {
-            level = +1;
+        if (level<5) {
+            level +=1;
             Level newLevel = Level.of(level);
             user.setLevel(newLevel);
             userRepository.save(user);
@@ -85,5 +86,10 @@ public class UserService extends GenericService<User, Long> implements IUserServ
                 () -> new NotFoundException("user doesn't exist!")
         );
         return currentUser.getPassword().equals(password);
+    }
+
+    @Override
+    public List<User> findByCourseName(String courseName) {
+        return userRepository.findByCourse_name(courseName);
     }
 }

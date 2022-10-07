@@ -9,6 +9,6 @@ import java.util.List;
 public interface ICourseService extends IGenericService<Course,Long> {
     List<Course> getByLang(Long langId);
 
-    List<User> users(Course course);
+    List<User> users(Long courseId);
 
 }

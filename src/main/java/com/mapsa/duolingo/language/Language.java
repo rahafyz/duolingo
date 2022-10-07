@@ -1,14 +1,19 @@
 package com.mapsa.duolingo.language;
 
 import com.mapsa.duolingo.common.BaseEntity;
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "language")
-public class Language{
+public class Language implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

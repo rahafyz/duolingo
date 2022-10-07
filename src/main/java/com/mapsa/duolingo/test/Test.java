@@ -33,7 +33,7 @@ public class Test extends BaseEntity {
     @JoinColumn(name = "exam_id")
     private Exam exam;
 
-    @Column(name = "mark")
+    @Column(name = "test_mark")
     private Double mark;
 
 }

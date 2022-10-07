@@ -5,6 +5,7 @@ import com.mapsa.duolingo.common.GenericService;
 import com.mapsa.duolingo.config.FileStorageProperties;
 import com.mapsa.duolingo.exception.CustomException;
 import com.mapsa.duolingo.exception.NotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
@@ -16,19 +17,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
+@AllArgsConstructor
 public class ExamService extends GenericService<Exam, Long> implements IExamService {
 
     private ExamRepository repository;
 
 
-
-
-    public ExamService(GenericRepository<Exam, Long> repository, ExamRepository repository1) {
-        super(repository);
-        this.repository = repository1;
-
-
-    }
 
     @Override
     public Exam getByLocation(String location) {
@@ -52,5 +46,10 @@ public class ExamService extends GenericService<Exam, Long> implements IExamServ
         }catch (MalformedURLException e){
             throw new NotFoundException("file not found"+ e.getCause());
         }
+    }
+
+    @Override
+    protected GenericRepository<Exam, Long> getRepository() {
+        return repository;
     }
 }

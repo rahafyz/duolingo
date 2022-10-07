@@ -5,15 +5,19 @@ import com.mapsa.duolingo.courseUser.CourseUser;
 import com.mapsa.duolingo.level.Level;
 import com.mapsa.duolingo.level.LevelConverter;
 import com.sun.istack.NotNull;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "user")
-public class User extends BaseEntity {
+public class User  extends BaseEntity implements Serializable {
 
 
     @Id
@@ -41,9 +45,10 @@ public class User extends BaseEntity {
     private String emailAddress;
 
     @Convert(converter = LevelConverter.class)
+    @Column(name = "user_level")
     private Level level= Level.BEGINNER;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<CourseUser> courses;
 
     @Override

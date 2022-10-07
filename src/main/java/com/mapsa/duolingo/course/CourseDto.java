@@ -4,24 +4,23 @@ import com.mapsa.duolingo.language.Language;
 import com.mapsa.duolingo.language.LanguageDto;
 import com.mapsa.duolingo.level.Level;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
 @Data
+@Builder
 public class CourseDto implements Serializable {
 
-    @ApiModelProperty(required = false, hidden = true)
     private Long id;
-
-    @ApiModelProperty(required = true)
+    @NotNull
     private String name;
 
-    @ApiModelProperty(required = false)
     private Language language;
 
-    @ApiModelProperty(required = false)
     private Level level;
 
 }

@@ -14,4 +14,5 @@ public interface IUserService extends IGenericService<User, Long> {
     void addCourse(Long courseId);
     User changeLevel(Long userId);
     List<Course> getUserCourses(User user);
+    List<User> findByCourseName(String courseName);
 }

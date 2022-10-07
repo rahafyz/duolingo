@@ -4,8 +4,10 @@ import com.mapsa.duolingo.course.Course;
 import com.mapsa.duolingo.course.CourseService;
 import com.mapsa.duolingo.user.User;
 import com.mapsa.duolingo.user.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class CourseUserService implements ICourseUserService {
 
 
     @Override
+    @Transactional
     public CourseUser save(CourseUserKey id) {
         Course myCourse = courseService.getById(id.getCourseId());
         User user = userService.getById(id.getUserId());
