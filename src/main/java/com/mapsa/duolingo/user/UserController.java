@@ -3,11 +3,8 @@ package com.mapsa.duolingo.user;
 
 import com.mapsa.duolingo.course.Course;
 import com.mapsa.duolingo.course.CourseMapper;
-import com.mapsa.duolingo.courseUser.CourseUserService;
-import com.mapsa.duolingo.exam.ExamDto;
 import com.mapsa.duolingo.exam.ExamService;
 import com.mapsa.duolingo.security.UserDetail;
-import com.mapsa.duolingo.test.Test;
 import com.mapsa.duolingo.test.TestService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -18,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -56,9 +52,9 @@ public class UserController {
     public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
         userService.login(username, password);
         return ResponseEntity.ok(userService.login(username, password));
-*/
 
-    }
+
+}*/
 
     @RequestMapping(value = "/delete/", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> deleteAccount() {
@@ -72,8 +68,8 @@ public class UserController {
         return new ResponseEntity(courseMapper.toListDto(courses), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/course" , method = RequestMethod.POST)
-    public ResponseEntity<Void> addCourse(@RequestParam Long courseId){
+    @RequestMapping(value = "/course", method = RequestMethod.POST)
+    public ResponseEntity<Void> addCourse(@RequestParam Long courseId) {
         userService.addCourse(courseId);
         return ResponseEntity.ok().build();
     }
@@ -92,7 +88,7 @@ public class UserController {
         }
 
         // Fallback to the default content type if type could not be determined
-        if(contentType == null) {
+        if (contentType == null) {
             contentType = "application/octet-stream";
         }
 
@@ -103,28 +99,28 @@ public class UserController {
     }
 
     @PostMapping(value = "/test")
-    public ResponseEntity<String> uploadFile(@RequestParam("examId") Long examId,@RequestParam MultipartFile file) {
-        String fileName = testService.storeFile(userDetail.getUserId(),examId,file);
+    public ResponseEntity<String> uploadFile(@RequestParam("examId") Long examId, @RequestParam MultipartFile file) {
+        String fileName = testService.storeFile(userDetail.getUserId(), examId, file);
 
         ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/downloadFile/")
                 .path(fileName)
                 .toUriString();
 
-        testService.save(userDetail.getUserId(),examId);
+        testService.save(userDetail.getUserId(), examId);
 
 
         return ResponseEntity.ok("http://localhost:9090/user/level");
     }
 
     @PutMapping(value = "/level")
-    public ResponseEntity<UserDto> changeLevel(){
+    public ResponseEntity<UserDto> changeLevel() {
 
         return ResponseEntity.ok(mapper.toDto(userService.changeLevel(userDetail.getUserId())));
     }
 
     @GetMapping(value = "/course/")
-    public ResponseEntity<List<UserDto>> search(@RequestParam String courseName){
+    public ResponseEntity<List<UserDto>> search(@RequestParam String courseName) {
         List<User> users = userService.findByCourseName(courseName);
         return ResponseEntity.ok(mapper.toListDto(users));
     }
