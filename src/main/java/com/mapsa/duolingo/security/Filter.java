@@ -34,7 +34,6 @@ public class Filter extends OncePerRequestFilter {
 
                 u.setUsername(body.getSubject());
                 u.setUserId(Long.parseLong((String) body.get("userId")));
-                u.setRole((String) body.get("role"));
 
 
             } catch (JwtException | ClassCastException e) {

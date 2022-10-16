@@ -51,7 +51,6 @@ public class JwtBuilder {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userField", user.getUserName());
         claims.put("userId", user.getId() + "");
-        claims.put("role", user.getPassword());
 
         return doGenerateToken(claims, user.getUserName());
     }

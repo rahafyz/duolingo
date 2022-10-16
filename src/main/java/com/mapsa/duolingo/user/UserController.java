@@ -48,15 +48,15 @@ public class UserController {
 
     @PostMapping(value = "/user")
     public ResponseEntity<UserDto> register(@RequestBody UserDto userDto) {
-        UserDto newUser = mapper.toDto(userService.save(mapper.toEntity(userDto)));
+        UserDto newUser = mapper.toDto(userService.register(mapper.toEntity(userDto)));
         return new ResponseEntity(newUser, HttpStatus.OK);
     }
 
-    @PostMapping("/login")
+    /*@PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
-
+        userService.login(username, password);
         return ResponseEntity.ok(userService.login(username, password));
-
+*/
 
     }
 

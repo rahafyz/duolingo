@@ -124,7 +124,7 @@ public class UserServiceTest {
     }
 
 
-    @Test
+    /*@Test
     public void login_whenAuthenticated_shouldReturnToken() {
 
         String Token = jwtBuilder.generateToken(getUser());
@@ -151,7 +151,7 @@ public class UserServiceTest {
         Assertions.assertThrows(CustomException.class, () -> {
             service.login(getUser().getUserName(), "any");
         });
-    }
+    }*/
 
     @Test
     public void addCourse_shouldAddToCourses() {
