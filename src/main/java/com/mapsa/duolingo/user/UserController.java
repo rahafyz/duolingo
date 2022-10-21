@@ -4,6 +4,8 @@ package com.mapsa.duolingo.user;
 import com.mapsa.duolingo.course.Course;
 import com.mapsa.duolingo.course.CourseMapper;
 import com.mapsa.duolingo.exam.ExamService;
+import com.mapsa.duolingo.exception.CustomException;
+import com.mapsa.duolingo.security.AuthenticationService;
 import com.mapsa.duolingo.security.UserDetail;
 import com.mapsa.duolingo.test.TestService;
 import lombok.AllArgsConstructor;
@@ -33,6 +35,7 @@ public class UserController {
     private UserDetail userDetail;
     private ExamService examService;
     private TestService testService;
+    private AuthenticationService authenticationService;
 
 
     @RequestMapping(value = "/user/", method = RequestMethod.GET)
@@ -48,13 +51,19 @@ public class UserController {
         return new ResponseEntity(newUser, HttpStatus.OK);
     }
 
-    /*@PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
-        userService.login(username, password);
-        return ResponseEntity.ok(userService.login(username, password));
+    @PostMapping("/login")
+    public ResponseEntity<UserDto> login(@RequestParam String username, @RequestParam String password) {
+        if (!userService.authentication(username, password))
+            throw new CustomException("Invalid password", HttpStatus.UNPROCESSABLE_ENTITY);
+        User user = userService.findByUserName(username);
+        authenticationService.sendVerificationCode(user);
+        return ResponseEntity.ok(mapper.toDto(user));
+    }
 
-
-}*/
+    @PostMapping("/verification/{verificationCode}")
+    public ResponseEntity<String> verification(@RequestParam String username, @PathVariable String verificationCode) {
+        return ResponseEntity.ok(authenticationService.verification(username, verificationCode));
+    }
 
     @RequestMapping(value = "/delete/", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> deleteAccount() {

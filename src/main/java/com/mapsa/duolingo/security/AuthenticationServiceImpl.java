@@ -15,20 +15,21 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationImpl {
+public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final IUserService userService;
     private final JwtBuilder jwtBuilder;
     private final ProducerService producerService;
     private final RedisService redisService;
 
-    public String login(String username, String password) {
+    /*@Override
+    public boolean login(String username, String password) {
         if (!userService.authentication(username, password))
             throw new CustomException("Invalid password", HttpStatus.UNPROCESSABLE_ENTITY);
-        jwtBuilder.generateToken(userService.findByUserName(username));
         return jwtBuilder.generateToken(userService.findByUserName(username));
-    }
+    }*/
 
+    @Override
     public void sendVerificationCode(User user) {
         Random random = new Random();
         Integer code = random.nextInt(6);
@@ -42,6 +43,7 @@ public class AuthenticationImpl {
 
     }
 
+    @Override
     public String verification(String username, String verificationCode) {
         String code = redisService.getValue("auth-" + username);
         if (verificationCode.equals(code))
