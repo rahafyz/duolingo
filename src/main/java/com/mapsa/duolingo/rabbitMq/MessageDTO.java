@@ -1,13 +1,17 @@
 package com.mapsa.duolingo.rabbitMq;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Accessors(fluent = true)
-public class MessageDTO {
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+public class MessageDTO implements Serializable {
 
     private String emailAddress;
 

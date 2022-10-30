@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.util.AntPathMatcher;
 
 @Configuration
 public class AppConfig {
@@ -15,5 +16,9 @@ public class AppConfig {
         return userDetail;
     }
 
+    @Bean
+    public AntPathMatcher antPathMatcher(){
+        return new AntPathMatcher();
+    }
 
 }

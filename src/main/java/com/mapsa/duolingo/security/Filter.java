@@ -5,6 +5,7 @@ import io.jsonwebtoken.JwtException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -19,6 +20,8 @@ public class Filter extends OncePerRequestFilter {
 
 
     private final JwtBuilder jwtTokenUtil;
+    private final AntPathMatcher pathMatcher;
+
     UserDetail u;
 
 
@@ -49,7 +52,7 @@ public class Filter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        return "/user/login".equals(path);
+        return "/user/login".equals(path)|| "/user/verification/*".equals(path) || "/user/user".equals(path)|| pathMatcher.match("/swagger-ui/**",path);
     }
 }
 

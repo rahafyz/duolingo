@@ -14,7 +14,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
         FileStorageProperties.class
 })
 @EnableCaching
-@EnableRabbit
 public class DuolingoApplication {
 
     public static void main(String[] args) {

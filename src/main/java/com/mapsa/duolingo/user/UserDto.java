@@ -2,10 +2,7 @@ package com.mapsa.duolingo.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mapsa.duolingo.level.Level;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
 import lombok.Data;
-import net.bytebuddy.implementation.bind.annotation.Default;
 
 @Data
 public class UserDto {
@@ -18,7 +15,7 @@ public class UserDto {
 
     private String userName;
 
-    @JsonIgnore
+//    @JsonIgnore
     private String password;
 
     private String emailAddress;

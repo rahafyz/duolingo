@@ -11,7 +11,7 @@ public class ProducerService {
 
     private final RabbitTemplate rabbitTemplate;
 
-    @Value("${rabbitmq.exchange}")
+    @Value("${spring.rabbitmq.template.exchange}")
     private String exchange;
 
     @Value("${spring.rabbitmq.template.routing-key}")

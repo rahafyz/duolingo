@@ -37,7 +37,7 @@ public class UserService extends GenericService<User, Long> implements IUserServ
 
     @Override
     public User register(User user) {
-        if (userRepository.existsUserByEmailAddressOrUserName(user.getEmailAddress(), user.getPassword()))
+        if (userRepository.existsUserByEmailAddressOrUserName(user.getEmailAddress(), user.getUserName()))
             throw new CustomException("this user already exist!", HttpStatus.CONFLICT);
         User newUser = super.save(user);
 
